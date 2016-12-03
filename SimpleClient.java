@@ -31,6 +31,8 @@ public class SimpleClient {
         JPanel panel = new JPanel();
 
         textArea = new JTextArea(20, 30);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
         textField = new JTextField(50);
         JButton button = new JButton("Send");
 
@@ -46,6 +48,7 @@ public class SimpleClient {
         Thread t = new Thread(new Runn());//create input thread
         t.start();
 
+        frame.setVisible(true);
 
     }
 
