@@ -35,8 +35,11 @@ public class SimpleClient {
         textArea.setWrapStyleWord(true);
         textField = new JTextField(50);
         JButton button = new JButton("Send");
+        JScrollPane qScroller = new JScrollPane(textArea);
+        qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        qScroller.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-        panel.add(textArea);
+        panel.add(qScroller);
         panel.add(textField);
         panel.add(button);
         frame.add(panel);
