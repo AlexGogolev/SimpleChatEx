@@ -34,6 +34,7 @@ public class SimpleClient {
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textField = new JTextField(50);
+
         JButton button = new JButton("Send");
         JScrollPane qScroller = new JScrollPane(textArea);
         qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -59,10 +60,12 @@ public class SimpleClient {
 
         try {
             socket = new Socket("localhost", 50000);
+            System.out.println("connection to server");
             writer = new PrintWriter(socket.getOutputStream());
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
         } catch (IOException e) {
+            System.out.println("server is not available");
             e.printStackTrace();
         }
 
@@ -84,7 +87,8 @@ public class SimpleClient {
             String message;
 
             try {
-                while ((message = reader.readLine()) != null) {
+                while (true) {
+                    message = reader.readLine();
                     textArea.append(message);
                     System.out.println("server to: " + message);
                 }
