@@ -7,14 +7,15 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class VerySimpleChatServer {
+public class SimpleServer {
 
-    ArrayList<PrintWriter> clientOutputStreams;
+    ArrayList<PrintWriter> clientOutputStreams; //Why then create ArrayList output socket streams
 
 
     public class ClientHandler implements Runnable {
-
+        //class - the task for stream (thread)
         BufferedReader reader;
 
         Socket sock;
@@ -47,7 +48,7 @@ public class VerySimpleChatServer {
 
 
     public static void main (String[] args) {
-        new VerySimpleChatServer().go();
+        new SimpleServer().go();
     }
 
     public void go() {
@@ -57,13 +58,12 @@ public class VerySimpleChatServer {
             ServerSocket serverSock = new ServerSocket(5000);
 
             while(true) {
-                Socket clientSocket = serverSock.accept();
+                Socket clientSocket = serverSock.accept();//whaiting client socket
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
                 clientOutputStreams.add(writer);
 
                 Thread t = new Thread(new ClientHandler(clientSocket));
                 t.start();
-
 
                 System.out.println("got a connection");
             }
