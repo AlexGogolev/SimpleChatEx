@@ -17,9 +17,7 @@ public class SimpleServer {
     public class ClientHandler implements Runnable {
         //class - the task for stream (thread)
         BufferedReader reader;
-
         Socket sock;
-
 
         public ClientHandler(Socket clientSocket) {
             try {
