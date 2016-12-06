@@ -21,8 +21,8 @@ public class SimpleClient {
     PrintWriter writer;
     Socket socket;
 
-    public void go(){
-        textArea = new JTextArea(100,100);
+    public void go() {
+        textArea = new JTextArea(100, 100);
         textField = new JTextField(50);
         button = new JButton("Send");
 
@@ -42,31 +42,36 @@ public class SimpleClient {
         Thread t1 = new Thread(new Task()); //create stream which get message from server
         t1.start();
 
-        frame.setSize(500,500);
+        frame.setSize(500, 500);
         frame.setVisible(true);
 
     }
 
-    public void networking(){
+    public void networking() {
         try {
-            System.out.println("ip server: "+InetAddress.getByName("prog-01").getHostAddress());
-            socket = new Socket(InetAddress.getByName("prog-01").getHostAddress(),50000);
+            String serviceMessage = "ip server: " + InetAddress.getByName("prog-01").getHostAddress() + "\n";
+            System.out.println(serviceMessage);
+            textArea.append(serviceMessage);
+            socket = new Socket(InetAddress.getByName("prog-01").getHostAddress(), 50000);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             writer = new PrintWriter(socket.getOutputStream());
-            System.out.println("connection to server successfully");
+            // System.out.println("connection to server successfully");
+            textArea.append("connection to server successfully \n");
         } catch (Exception e) {
+            //System.out.println("server isn't available");
+            textArea.append("server isn't available!!! \n");
             e.toString();
             //e.printStackTrace();
         }
     }
 
-    public class Task implements Runnable{
+    public class Task implements Runnable {
         @Override
         public void run() {
-           String message;
+            String message;
 
             try {
-                while ((message = reader.readLine())!=null){
+                while ((message = reader.readLine()) != null) {
                     textArea.append(message + "\n");
                 }
             } catch (IOException e) {
@@ -75,7 +80,7 @@ public class SimpleClient {
         }
     }
 
-    public class buttonSendListener implements ActionListener{
+    public class buttonSendListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             //create output stream ...
@@ -97,7 +102,6 @@ public class SimpleClient {
 
         }
     }
-
 
     public static void main(String[] args) {
         new SimpleClient().go();
