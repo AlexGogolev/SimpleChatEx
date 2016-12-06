@@ -47,7 +47,7 @@ public class SimpleClient {
         Thread t1 = new Thread(new Task()); //create stream which get message from server
         t1.start();
 
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setVisible(true);
 
