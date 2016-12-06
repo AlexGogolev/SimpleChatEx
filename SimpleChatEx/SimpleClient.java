@@ -90,6 +90,10 @@ public class SimpleClient {
             String message;
             message = textField.getText();
             writer.println(namePC + ": " + message);
+            writer.flush();
+
+            textField.setText("");
+            textField.requestFocus();
 
         }
     }
