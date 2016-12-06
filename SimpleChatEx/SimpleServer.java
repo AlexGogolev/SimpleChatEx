@@ -35,7 +35,7 @@ public class SimpleServer {
             try {
                 while ((message = reader.readLine()) != null) {
 
-                    System.out.println("read " + message);
+                    System.out.println("read: " + message);
                     tellEveryone(message);
 
                 } // close while

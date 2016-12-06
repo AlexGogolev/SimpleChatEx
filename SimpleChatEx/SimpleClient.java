@@ -22,9 +22,13 @@ public class SimpleClient {
     Socket socket;
 
     public void go() {
+        frame = new JFrame();
+        panel = new JPanel();
         textArea = new JTextArea(100, 100);
         textField = new JTextField(50);
         button = new JButton("Send");
+
+        frame.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         JScrollPane qScroller = new JScrollPane(textArea);
         qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -42,6 +46,7 @@ public class SimpleClient {
         Thread t1 = new Thread(new Task()); //create stream which get message from server
         t1.start();
 
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(500, 500);
         frame.setVisible(true);
 
