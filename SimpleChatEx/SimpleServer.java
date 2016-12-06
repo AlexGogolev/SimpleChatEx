@@ -11,12 +11,12 @@ import java.util.Iterator;
 
 public class SimpleServer {
 
-    ArrayList<PrintWriter> clientsConnected;
+    private ArrayList<PrintWriter> clientsConnected;
 
     public class ClientRunnable implements Runnable {
         BufferedReader reader;
 
-        public ClientRunnable(Socket socket) {
+        private ClientRunnable(Socket socket) {
             try {
                 reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             } catch (IOException e) {
@@ -37,7 +37,7 @@ public class SimpleServer {
         }
     }
 
-    public void sendEveryone(String message) {
+    private void sendEveryone(String message) {
         Iterator it = clientsConnected.iterator();
         while (it.hasNext()) {
             PrintWriter writer = (PrintWriter) it.next();
@@ -46,7 +46,7 @@ public class SimpleServer {
         }
     }
 
-    public void go() {
+    private void go() {
         clientsConnected = new ArrayList<PrintWriter>();
 
         try {
