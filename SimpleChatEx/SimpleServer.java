@@ -26,6 +26,7 @@ public class SimpleServer {
 
         @Override
         public void run() {
+            System.out.println("create new Thread");
             String message;
             try {
                 while ((message = reader.readLine()) != null) {
