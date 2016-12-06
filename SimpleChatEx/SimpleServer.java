@@ -53,7 +53,7 @@ public class SimpleServer {
         clientOutputStreams = new ArrayList<PrintWriter>();
 
         try {
-            ServerSocket serverSock = new ServerSocket(5000);
+            ServerSocket serverSock = new ServerSocket(50000);
 
             while(true) {
                 Socket clientSocket = serverSock.accept();//whaiting client socket
