@@ -24,28 +24,28 @@ public class SimpleServer {
                 sock = clientSocket;
                 reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 
-            } catch(Exception ex) {ex.printStackTrace();}
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         } // close constructor
 
         public void run() {
             String message;
 
             try {
-
                 while ((message = reader.readLine()) != null) {
 
                     System.out.println("read " + message);
                     tellEveryone(message);
 
                 } // close while
-            } catch(Exception ex) {ex.printStackTrace();}
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         } // close run
     } // close inner class
 
-
-
-
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         new SimpleServer().go();
     }
 
@@ -55,7 +55,7 @@ public class SimpleServer {
         try {
             ServerSocket serverSock = new ServerSocket(50000);
 
-            while(true) {
+            while (true) {
                 Socket clientSocket = serverSock.accept();//whaiting client socket
                 PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
                 clientOutputStreams.add(writer);
@@ -67,19 +67,19 @@ public class SimpleServer {
             }
             // now if I get here I have a connection
 
-        }catch(Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public void tellEveryone(String message) {
         Iterator it = clientOutputStreams.iterator();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             try {
                 PrintWriter writer = (PrintWriter) it.next();
                 writer.println(message);
                 writer.flush();
-            } catch(Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
 
