@@ -29,6 +29,7 @@ public class SimpleClient {
         button = new JButton("Send");
 
         frame.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //set up vertical orientation elements in layout
 
         JScrollPane qScroller = new JScrollPane(textArea);
         qScroller.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -39,9 +40,9 @@ public class SimpleClient {
         panel.add(button);
         frame.add(panel);
 
-        button.addActionListener(new buttonSendListener());
-
         networking();
+
+        button.addActionListener(new buttonSendListener());
 
         Thread t1 = new Thread(new Task()); //create stream which get message from server
         t1.start();

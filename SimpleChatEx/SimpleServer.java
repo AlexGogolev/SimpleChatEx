@@ -11,81 +11,65 @@ import java.util.Iterator;
 
 public class SimpleServer {
 
-    ArrayList<PrintWriter> clientOutputStreams; //Why then create ArrayList output socket streams
+    ArrayList<PrintWriter> clientsConnected;
 
-
-    public class ClientHandler implements Runnable {
-        //class - the task for stream (thread)
+    public class ClientRunnable implements Runnable {
         BufferedReader reader;
-        Socket sock;
 
-        public ClientHandler(Socket clientSocket) {
+        public ClientRunnable(Socket socket) {
             try {
-                sock = clientSocket;
-                reader = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } // close constructor
+        }
 
+        @Override
         public void run() {
             String message;
-
             try {
                 while ((message = reader.readLine()) != null) {
-
-                    System.out.println("read: " + message);
-                    tellEveryone(message);
-
-                } // close while
-            } catch (Exception ex) {
-                ex.printStackTrace();
+                    sendEveryone(message);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        } // close run
-    } // close inner class
+        }
+    }
+
+    public void sendEveryone(String message) {
+        Iterator it = clientsConnected.iterator();
+        while (it.hasNext()) {
+            PrintWriter writer = (PrintWriter) it.next();
+            writer.println(message);
+            writer.flush();
+        }
+    }
+
+    public void go() {
+        clientsConnected = new ArrayList<PrintWriter>();
+
+        try {
+            ServerSocket serverSocket = new ServerSocket(50000);
+
+            while (true) {
+                Socket socket = serverSocket.accept();
+                PrintWriter writer = new PrintWriter(socket.getOutputStream());
+                clientsConnected.add(writer);
+
+                Thread threadClient = new Thread(new ClientRunnable(socket));
+                threadClient.start();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
 
     public static void main(String[] args) {
         new SimpleServer().go();
     }
-
-    public void go() {
-        clientOutputStreams = new ArrayList<PrintWriter>();
-
-        try {
-            ServerSocket serverSock = new ServerSocket(50000);
-
-            while (true) {
-                Socket clientSocket = serverSock.accept();//whaiting client socket
-                PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
-                clientOutputStreams.add(writer);
-
-                Thread t = new Thread(new ClientHandler(clientSocket));
-                t.start();
-
-                System.out.println("got a connection");
-            }
-            // now if I get here I have a connection
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    public void tellEveryone(String message) {
-        Iterator it = clientOutputStreams.iterator();
-        while (it.hasNext()) {
-            try {
-                PrintWriter writer = (PrintWriter) it.next();
-                writer.println(message);
-                writer.flush();
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-        } // end while
-
-    } // close tellEveryone
 
 
 }
