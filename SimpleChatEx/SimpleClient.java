@@ -12,7 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 public class SimpleClient {
-    JFrame frame;
+    //private JFrame frame;
     JPanel panel;
     JTextArea textArea;
     JTextField textField;
@@ -22,13 +22,13 @@ public class SimpleClient {
     Socket socket;
 
     public void go() {
-        frame = new JFrame();
+        JFrame frame = new JFrame();
         panel = new JPanel();
-        textArea = new JTextArea(100, 100);
-        textField = new JTextField(50);
+        textArea = new JTextArea(20, 20);
+        textField = new JTextField(15);
         button = new JButton("Send");
 
-        frame.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        //frame.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         //set up vertical orientation elements in layout
 
         JScrollPane qScroller = new JScrollPane(textArea);
@@ -48,7 +48,8 @@ public class SimpleClient {
         t1.start();
 
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(500, 500);
+        frame.setSize(200, 200);
+        frame.pack();
         frame.setVisible(true);
 
     }
@@ -56,7 +57,7 @@ public class SimpleClient {
     public void networking() {
         try {
             String serviceMessage = "ip server: " + InetAddress.getByName("prog-01").getHostAddress() + "\n";
-            System.out.println(serviceMessage);
+           // System.out.println(serviceMessage);
             textArea.append(serviceMessage);
             socket = new Socket(InetAddress.getByName("prog-01").getHostAddress(), 50000);
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -92,7 +93,7 @@ public class SimpleClient {
             //create output stream ...
             String namePC;
             try {
-                namePC = InetAddress.getLocalHost().toString();
+                namePC = InetAddress.getLocalHost().getHostName();
             } catch (UnknownHostException e1) {
                 namePC = "some_name";
                 e1.printStackTrace();
